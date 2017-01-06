@@ -2,9 +2,11 @@ package com.amf.sbu;
 
 import java.util.Calendar;
 
-public enum Semester {
+public enum Semester implements FilterOption {
     
     WINTER, SPRING, SUMMER, FALL;
+    
+    private static final String filter = "&filter[]=ctrlnum%%3A\"%s+%d\"";
     
     public static Semester current() {
         int month = Calendar.getInstance().get(Calendar.MONTH);
@@ -18,6 +20,10 @@ public enum Semester {
             return SUMMER;
         }
         return FALL;
+    }
+    
+    public String filterString() {
+        return String.format(filter, toString(), yearForSemester(this));
     }
     
     public static Semester next() {
