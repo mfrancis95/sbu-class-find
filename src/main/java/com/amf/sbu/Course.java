@@ -69,6 +69,11 @@ public class Course {
     private void extractCreditAndInstructor() {
         Element resultItemLine2 = result.getElementsByClass("resultItemLine2").first();
         instructor = resultItemLine2.child(0).text();
+        int commaIndex = instructor.indexOf(",");
+        if (commaIndex >= 0) {
+            String firstName = instructor.substring(commaIndex + 1);
+            instructor = firstName + " " + instructor.substring(0, commaIndex);            
+        }
         credit = resultItemLine2.textNodes().get(2).text().trim();
     }
     
