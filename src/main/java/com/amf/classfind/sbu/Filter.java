@@ -1,4 +1,4 @@
-package com.amf.sbu;
+package com.amf.classfind.sbu;
 
 public class Filter {
     

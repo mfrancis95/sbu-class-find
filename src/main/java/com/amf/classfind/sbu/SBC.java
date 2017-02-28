@@ -1,4 +1,6 @@
-package com.amf.sbu;
+package com.amf.classfind.sbu;
+
+import com.amf.classfind.FilterOption;
 
 public enum SBC implements FilterOption {
     

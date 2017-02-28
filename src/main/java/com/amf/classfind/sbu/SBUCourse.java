@@ -1,41 +1,49 @@
-package com.amf.sbu;
+package com.amf.classfind.sbu;
 
+import com.amf.classfind.Course;
+import com.amf.classfind.Section;
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.net.URLConnection;
 import java.util.ListIterator;
 import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Node;
 import org.jsoup.nodes.TextNode;
 
-public class Course {
+public class SBUCourse extends Course {
     
     private final static String url = "http://classfind.stonybrook.edu/vufind/AJAX/JSON?method=getItemVUStatuses&strm=%s&itemid=";
     
     private final Element result;
     
-    private boolean hasLab = true, hasRecitation = true;
+    private Integer availability;
     
     private String code, credit, department, instructor, number, section, semesterCode, title;
     
+    private boolean hasLab = true, hasRecitation = true;
+    
     private Section lab, lecture, recitation;
     
-    Course(Element result) {
+    SBUCourse(Element result) {
         this.result = result;
     }
     
-    public int availability() throws IOException {
-        URLConnection connection = new URL(String.format(url, semesterCode()) + number()).openConnection();
-        StringBuilder json = new StringBuilder();
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
-            while (reader.ready()) {
-                json.append(reader.readLine());
+    public int availability() {
+        if (availability == null) {
+            String url = String.format(this.url, semesterCode()) + number();
+            StringBuilder json = new StringBuilder();
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(url).openStream()))) {
+                while (reader.ready()) {
+                    json.append(reader.readLine());
+                }
             }
+            catch (Exception ex) {
+                throw new RuntimeException();
+            }
+            String substring = json.substring(json.indexOf("L>") + 2);
+            availability = Integer.parseInt(substring.substring(0, substring.indexOf('<')));
         }
-        String substring = json.substring(json.indexOf("L>") + 2);
-        return Integer.parseInt(substring.substring(0, substring.indexOf('<')));
+        return availability;
     }
     
     public String code() {

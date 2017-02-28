@@ -1,5 +1,6 @@
-package com.amf.sbu;
+package com.amf.classfind.sbu;
 
+import com.amf.classfind.FilterOption;
 import java.util.Calendar;
 
 public enum Semester implements FilterOption {

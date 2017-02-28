@@ -1,10 +1,10 @@
-package com.amf.sbu;
+package com.amf.classfind;
 
 public class Section {
     
     public final String days, hours;
     
-    Section(String days, String hours) {
+    public Section(String days, String hours) {
         this.days = days;
         this.hours = hours;
     }

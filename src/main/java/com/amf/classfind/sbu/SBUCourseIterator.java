@@ -1,24 +1,22 @@
-package com.amf.sbu;
+package com.amf.classfind.sbu;
 
-import java.util.Iterator;
+import com.amf.classfind.CourseIterator;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.select.Elements;
 
-public class CourseIterator implements Iterator<Course> {
-    
-    private final String url;
+public class SBUCourseIterator extends CourseIterator{
         
     private Connection connection;
     
-    private int count, index, limit = Integer.MAX_VALUE, total, page = 1;
+    private int count, index, total, page = 1;
     
     private Elements recordSet;
     
-    CourseIterator(String url) {
-        this.url = url;
+    SBUCourseIterator(String url) {
+        super(url);
     }
-
+    
     public boolean hasNext() {
         if (total >= limit) {
             return false;
@@ -44,15 +42,10 @@ public class CourseIterator implements Iterator<Course> {
         }
         return index < count;
     }
-    
-    public CourseIterator limit(int limit) {
-        this.limit = limit;
-        return this;
-    }
 
-    public Course next() {
+    public SBUCourse next() {
         total++;
-        return new Course(recordSet.get(index++));
+        return new SBUCourse(recordSet.get(index++));
     }
     
 }
