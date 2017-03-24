@@ -33,15 +33,22 @@ public class SBUCourse extends Course {
             String url = String.format(this.url, semesterCode()) + number();
             StringBuilder json = new StringBuilder();
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(url).openStream()))) {
-                while (reader.ready()) {
-                    json.append(reader.readLine());
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    json.append(line);
                 }
             }
             catch (Exception ex) {
-                throw new RuntimeException();
+                throw new RuntimeException(ex);
             }
             String substring = json.substring(json.indexOf("L>") + 2);
             availability = Integer.parseInt(substring.substring(0, substring.indexOf('<')));
+            if (availability < 0) {
+                substring = substring.substring(substring.indexOf("OS>") + 3);
+                if (Integer.parseInt(substring.substring(0, substring.indexOf('<'))) == 0) {
+                    availability = 0;
+                }
+            }
         }
         return availability;
     }
@@ -65,6 +72,14 @@ public class SBUCourse extends Course {
             extractCourse();
         }
         return department;
+    }
+    
+    public boolean equals(Object object) {
+        if (!(object instanceof SBUCourse)) {
+            return false;
+        }
+        SBUCourse course = (SBUCourse) object;
+        return number().equals(course.number());
     }
     
     private void extractCourse() {
@@ -113,6 +128,10 @@ public class SBUCourse extends Course {
                 recitation = new Section(split[0].replaceFirst("\\W", ""), split[1]);
             }
         }
+    }
+    
+    public int hashCode() {
+        return Integer.parseInt(number());
     }
     
     public String instructor() {

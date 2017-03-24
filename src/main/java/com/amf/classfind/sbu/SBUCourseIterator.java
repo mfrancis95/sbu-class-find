@@ -18,7 +18,7 @@ public class SBUCourseIterator extends CourseIterator{
     }
     
     public boolean hasNext() {
-        if (total >= limit) {
+        if (errorOccurred || total >= limit) {
             return false;
         }
         if (index >= count) {
@@ -29,11 +29,22 @@ public class SBUCourseIterator extends CourseIterator{
                 connection.url(url + page++);
             }
             try {
-                recordSet = connection.get().getElementsByClass("recordSet").first().children();
+                Elements span18 = connection.get().getElementsByClass("span-18");
+                if (span18.isEmpty()) {
+                    throw new Exception();
+                }
+                recordSet = span18.first().getElementsByClass("recordSet").first().children();
+            }
+            catch (NullPointerException ex) {
+                connection = null;
+                count = index = total = 0;
+                page = 1;
+                return false;
             }
             catch (Exception ex) {
                 connection = null;
                 count = index = total = 0;
+                errorOccurred = true;
                 page = 1;
                 return false;
             }

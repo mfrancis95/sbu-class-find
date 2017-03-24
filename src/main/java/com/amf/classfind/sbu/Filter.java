@@ -2,11 +2,13 @@ package com.amf.classfind.sbu;
 
 public class Filter {
     
-    public DEC dec;
+    private DEC dec;
     
-    public SBC sbc;
+    private SBC sbc;
     
-    public Semester semester;
+    private Semester semester;
+    
+    private Filter() {}
     
     public String toString() {
         StringBuilder filter = new StringBuilder();
@@ -20,6 +22,31 @@ public class Filter {
             filter.append(semester.filterString());
         }
         return filter.toString();
+    }
+    
+    public static class Builder {
+        
+        private final Filter filter = new Filter();
+        
+        public Filter build() {
+            return filter;
+        }
+        
+        public Builder dec(DEC dec) {
+            filter.dec = dec;
+            return this;
+        }
+        
+        public Builder sbc(SBC sbc) {
+            filter.sbc = sbc;
+            return this;
+        }
+        
+        public Builder semester(Semester semester) {
+            filter.semester = semester;
+            return this;
+        }
+        
     }
     
 }
