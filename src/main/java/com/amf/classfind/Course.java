@@ -2,48 +2,56 @@ package com.amf.classfind;
 
 public abstract class Course {
     
-    public int availability() {
-        throw new UnsupportedOperationException();
+    public abstract int availability();
+    
+    public String getCode() {
+        return null;
     }
-
-    public String code() {
-        throw new UnsupportedOperationException();
+    
+    public String getCredit() {
+        return null;
     }
-
-    public String credit() {
-        throw new UnsupportedOperationException();
+    
+    public String getDepartment() {
+        return null;
     }
-
-    public String department() {
-        throw new UnsupportedOperationException();
+    
+    public String getInstructor() {
+        return null;
     }
-
-    public String instructor() {
-        throw new UnsupportedOperationException();
+    
+    public Section getLab() {
+        return null;
     }
-
-    public Section lab() {
-        throw new UnsupportedOperationException();
+    
+    public Section getLecture() {
+        return null;
     }
-
-    public Section lecture() {
-        throw new UnsupportedOperationException();
+    
+    public String getNumber() {
+        return null;
     }
-
-    public Section recitation() {
-        throw new UnsupportedOperationException();
+    
+    public Section getRecitation() {
+        return null;
     }
-
-    public String section() {
-        throw new UnsupportedOperationException();
+    
+    public String getSection() {
+        return null;
     }
-
-    public String semesterCode() {
-        throw new UnsupportedOperationException();
+    
+    public String getSemesterCode() {
+        return null;
     }
-
-    public String title() {
-        throw new UnsupportedOperationException();
+    
+    public String getTitle() {
+        return null;
+    }
+    
+    public abstract int refreshAvailability();
+    
+    public boolean retrievedAvailability() {
+        return false;
     }
 
 }
