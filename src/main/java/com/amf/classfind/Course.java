@@ -1,6 +1,8 @@
 package com.amf.classfind;
 
-public abstract class Course {
+import java.io.Serializable;
+
+public abstract class Course implements Serializable {
     
     public abstract int availability();
     

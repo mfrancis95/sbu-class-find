@@ -4,24 +4,28 @@ public class Filter {
     
     private DEC dec;
     
+    private int limit = Integer.MAX_VALUE;
+    
     private SBC sbc;
     
     private Semester semester;
     
     private Filter() {}
     
-    public String toString() {
-        StringBuilder filter = new StringBuilder();
-        if (dec != null) {
-            filter.append(dec.filterString());
-        }
-        if (sbc != null) {
-            filter.append(sbc.filterString());
-        }
-        if (semester != null) {
-            filter.append(semester.filterString());
-        }
-        return filter.toString();
+    public DEC getDEC() {
+        return dec;
+    }
+    
+    public int getLimit() {
+        return limit;
+    }
+    
+    public SBC getSBC() {
+        return sbc;
+    }
+    
+    public Semester getSemester() {
+        return semester;
     }
     
     public static class Builder {
@@ -32,17 +36,22 @@ public class Filter {
             return filter;
         }
         
-        public Builder dec(DEC dec) {
+        public Builder setDEC(DEC dec) {
             filter.dec = dec;
             return this;
         }
         
-        public Builder sbc(SBC sbc) {
+        public Builder setLimit(int limit) {
+            filter.limit = limit;
+            return this;
+        }
+        
+        public Builder setSBC(SBC sbc) {
             filter.sbc = sbc;
             return this;
         }
         
-        public Builder semester(Semester semester) {
+        public Builder setSemester(Semester semester) {
             filter.semester = semester;
             return this;
         }

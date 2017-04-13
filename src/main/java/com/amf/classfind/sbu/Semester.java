@@ -7,7 +7,14 @@ public enum Semester implements FilterOption {
     
     WINTER, SPRING, SUMMER, FALL;
     
-    private static final String filter = "&filter[]=ctrlnum%%3A\"%s+%d\"";
+    private static final String filter = "ctrlnum:\"%s %d\"";
+    
+    private final String name;
+    
+    Semester() {
+        String capital = super.toString();
+        name = capital.substring(0, 1) + capital.substring(1).toLowerCase();
+    }
     
     public static Semester current() {
         int month = Calendar.getInstance().get(Calendar.MONTH);
@@ -24,33 +31,39 @@ public enum Semester implements FilterOption {
     }
     
     public String filterString() {
-        return String.format(filter, toString(), yearForSemester(this));
+        return String.format(filter, name, year());
     }
     
-    public static Semester next() {
-        return next(current());
+    public Semester next() {
+        switch (this) {
+            case WINTER:
+                return SPRING;
+            case SPRING:
+                return SUMMER;
+            case SUMMER:
+                return FALL;
+            default:
+                return WINTER;
+        }
     }
     
-    public static Semester next(Semester semester) {
-        Semester[] semesters = Semester.values();
-        int index = semester.ordinal() + 1;
-        return index < semesters.length ? semesters[index] : semesters[0];
+    public Semester previous() {
+        switch (this) {
+            case WINTER:
+                return FALL;
+            case SPRING:
+                return WINTER;
+            case SUMMER:
+                return SPRING;
+            default:
+                return SUMMER;
+        }
     }
     
-    public static Semester previous() {
-        return previous(current());
-    }
-    
-    public static Semester previous(Semester semester) {
-        Semester[] semesters = Semester.values();
-        int index = semester.ordinal() - 1;
-        return index < 0 ? semesters[semesters.length - 1] : semesters[index];
-    }
-    
-    public static int yearForSemester(Semester semester) {
+    public int year() {
         Calendar calendar = Calendar.getInstance();
         int month = calendar.get(Calendar.MONTH), year = calendar.get(Calendar.YEAR);
-        switch (semester) {
+        switch (this) {
             case WINTER:
             case SPRING:
                 return month <= 7 ? year : year + 1;
@@ -62,8 +75,7 @@ public enum Semester implements FilterOption {
     }
     
     public String toString() {
-        String name = super.toString();
-        return name.substring(0, 1) + name.substring(1).toLowerCase();
+        return name;
     }
     
 }

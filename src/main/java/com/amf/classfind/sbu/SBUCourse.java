@@ -165,4 +165,8 @@ public class SBUCourse extends Course {
         return availability != null;
     }
     
+    public String toString() {
+        return department + code + "." + section;
+    }
+    
 }

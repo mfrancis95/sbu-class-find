@@ -2,8 +2,6 @@ package com.amf.classfind.sbu;
 
 public class ClassFind {
     
-    private static final String url = "http://classfind.stonybrook.edu/vufind/Search/Results?type=%s&lookfor=%s%s&page=";
-    
     public static SBUCourseIterator all() {
         return all(null);
     }
@@ -25,7 +23,7 @@ public class ClassFind {
     }
     
     public static SBUCourseIterator byCourse(String department, String code, Filter filter) {
-        return new SBUCourseIterator(String.format(url, "callnumber", department + code, filter == null ? "" : filter));
+        return new SBUCourseIterator(department + code, "callnumber", filter);
     }
     
     public static SBUCourseIterator byInstructor(String firstName, String lastName) {
@@ -33,7 +31,7 @@ public class ClassFind {
     }
     
     public static SBUCourseIterator byInstructor(String firstName, String lastName, Filter filter) {
-        return new SBUCourseIterator(String.format(url, "Author", lastName + ", " + firstName, filter == null ? "" : filter));
+        return new SBUCourseIterator(lastName + ", " + firstName, "Author", filter);
     }
     
     public static SBUCourseIterator byTitle(String title) {
@@ -41,7 +39,7 @@ public class ClassFind {
     }
     
     public static SBUCourseIterator byTitle(String title, Filter filter) {
-        return new SBUCourseIterator(String.format(url, "Title", title, filter == null ? "" : filter));
+        return new SBUCourseIterator(title, "Title", filter);
     }
 
 }
